@@ -6,6 +6,7 @@ import card3 from '../assets/card3.png'
 import card4 from '../assets/card4.png'
 import card5 from '../assets/card5.png'
 import { useEffect, useState } from 'react'
+import { storyStore } from '../zustand'
 
 interface CardProps{
     option:string
@@ -16,7 +17,7 @@ const cards = [card1,card2,card3,card4,card5]
 const Card = ({option}:CardProps) => {
     const [cardFace, setCardFace] = useState<StaticImageData>()
     const [isFlipped, setIsFlipped] = useState(false)
-
+    const {setSelectedOption} = storyStore();
     useEffect(()=>{
         if(!cardFace) {
             setCardFace(cards[Math.floor(Math.random() * cards.length)])
@@ -38,8 +39,9 @@ const Card = ({option}:CardProps) => {
                     alt="tarot card" 
                 />
             </div>
-            <div onClick={handleFlip} className="flip-card-back hover:shadow-lg hover:shadow-red-400">
-                {option}
+            <div onClick={handleFlip} className="flex flex-col flip-card-back hover:shadow-lg hover:shadow-red-400">
+                <span>{option}</span>
+                <button onClick={()=>setSelectedOption(option)} className='bg-yellow-500 rounded-xl'>Select</button>
             </div>
         </div>
     </div>}

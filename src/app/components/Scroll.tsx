@@ -3,15 +3,12 @@ import Image from 'next/image'
 import openScrollImg from '../../app/assets/optionScrollOpen.png'
 import closedScrollImg from '../../app/assets/closedScroll.png'
 import { useState } from 'react'
+import { storyStore } from '../zustand'
 
-interface ScrollProps{
-    storyUpdate: string
-}
-
-const Scroll = ({storyUpdate}:ScrollProps) => {
+const Scroll = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [isSliding, setIsSliding] = useState(false) 
-
+    const {history} = storyStore();
     const handleTransition = () => {
         setIsSliding(true)
         if(isOpen){
@@ -32,7 +29,7 @@ const Scroll = ({storyUpdate}:ScrollProps) => {
             {isOpen ? 
                 <div className={`z-0 ${isSliding ? 'slide-out' : ''}`}
 >
-                    <span className='absolute text-xl ml-36 mt-28 w-2/3 h-60 overflow-scroll'>{storyUpdate}</span>
+                    <span className='absolute text-xl ml-36 mt-28 w-1/2 h-60 overflow-scroll'>{history[history.length-1].storyUpdate}</span>
                     <Image
                         onClick={handleTransition}
                         src={openScrollImg}
